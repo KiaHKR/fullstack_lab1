@@ -124,3 +124,10 @@ app.delete("/api/users/:id", (req, res) => {
     }
     delete_user()
 })
+
+
+
+
+app.listen(port, () => {
+    console.log('Express server listening on http://localhost:' + port)
+})
