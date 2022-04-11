@@ -124,5 +124,3 @@ app.delete("/api/users/:id", (req, res) => {
     }
     delete_user()
 })
-
- q
