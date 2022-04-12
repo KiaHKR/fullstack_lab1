@@ -1,4 +1,5 @@
 function load_user(my_object) {
+    console.log("load_user")
     fetch(`/api/users/` + $(my_object).attr("data-id"))
         .then(async function (response) {
             if (response.status != 200) {
@@ -17,27 +18,23 @@ function load_user(my_object) {
 }
 
 function update_user() {
+    $("#updateuser").submit(function(e) {
+        e.preventDefault(); // <==stop page refresh==>
+    });
     const id_query = document.getElementById('update_id').value;
     const name_query = document.getElementById('update_name').value;
     const age_query = document.getElementById('update_age').value;
     fetch(`/api/users/` + id_query, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
-                "Access-Control-Allow-Origin":"*"
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 name: name_query,
                 age: age_query
             })
 
-        })
-        .then(async response => {
-            const data = await response.json();
-            console.log(data)
-            if (response.status != 200) {
-                alert("oh no");
-            } else {
-            }
-        });
+        }).then(
+            response => build_user()
+        )
 }

@@ -10,13 +10,46 @@ import {
 
 
 const app = express()
-app.use(cors( {credentials: true, origin: true}))
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+app.use(cors())
 
 const port = process.env.PORT || 3000
 app.use(express.urlencoded({
     extended: true
 }))
+app.use(function (req, res, next) {
 
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    res.setHeader('Access-Control-Expose-Headers', '*')
+
+    // Pass to next layer of middleware
+    next();
+});
 
 app.use(express.json())
 
@@ -27,8 +60,6 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
     res.render('pages/index')
 })
-
-
 
 env.config()
 
@@ -44,6 +75,8 @@ const database = client.db("users");
 const collections = database.collection("user_info");
 
 
+app.options('/api/users/:id', cors()) // enable pre-flight request for DELETE request
+
 
 app.get("/api/users", (req, res, next) => {
     async function get_users() {
@@ -51,7 +84,6 @@ app.get("/api/users", (req, res, next) => {
         const users = collections.find({})
         await users.forEach(function (result) {
             json_user.push(result)
-            console.log(result)
         })
         res.json(json_user)
         json_user = []
@@ -67,7 +99,6 @@ app.get("/api/users/:id", (req, res, next) => {
         })
         await users.forEach(function (result) {
             json_user.push(result)
-            console.log(result)
         })
         res.json(json_user)
         json_user = []
@@ -93,8 +124,7 @@ app.post("/api/users", (req, res, next) => {
 })
 
 
-app.put("/api/users/:id", (req, res, next) => {
-
+app.put("/api/users/:id", async (req, res) => {
     const found_user_object = collections.findOne(ObjectId(req.params.id))
 
     found_user_object.then(function (result) {
@@ -106,17 +136,17 @@ app.put("/api/users/:id", (req, res, next) => {
     })
 
     function update_user() {
-        try {
-            collections.updateOne({
-                _id: ObjectId(req.params.id)
-            }, {
-                $set: {
-                    name: req.body.name,
-                    age: req.body.age
-                }
-            })
-            res.sendStatus(200)
-        } finally {}
+        collections.updateOne({
+            _id: ObjectId(req.params.id)
+        }, {
+            $set: {
+                name: req.body.name,
+                age: req.body.age,
+            }
+        }).then(async response =>{
+            console.log(response)
+        })
+        res.sendStatus(200)
     }
 })
 

@@ -15,6 +15,7 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
     <script src="https://kit.fontawesome.com/dc4562ddf8.js" crossorigin="anonymous"></script>
+
 </head>
 <div class="m-4">
     <div class="row m-3">
@@ -25,7 +26,7 @@
 
                 <input type="text" name="name" id="name" placeholder="John Doe" />
                 <input type="number" name="age" id="age" placeholder="24" />
-                <button onclick="addUser()" class="btn btn-outline-success btn-sm" type="submit">Add user</button>
+                <button onclick="addUser();" class="btn btn-outline-success btn-sm" type="submit">Add user</button>
 
             </form>
         </div>
@@ -40,7 +41,8 @@
                 <input type="text" name="id" id="update_id" class="update_field" placeholder="ID" required disabled />
                 <input type="text" name="name" id="update_name" class="update_field" placeholder="John Doe" />
                 <input type="text" name="age" id="update_age" class="update_field" placeholder="24" />
-                <button onclick="update_user()" class="btn btn-outline-success btn-sm" type="submit">Update User</button>
+                <button onclick="update_user();" class="btn btn-outline-success btn-sm" type="submit">Update User</button>
+                
 
             </form>
         </div>
@@ -52,13 +54,9 @@
 </div>
 
 
-<body>
-
-</body>
-<script src="js/get_users.js"></script>
+<script src="js/get_users.js"></script>    
 <script src="js/info_user.js"></script>
 <script src="js/delete_user.js"></script>
 <script src="js/add_user.js"></script>
 <script src="js/update_user.js"></script>
-
 </html>

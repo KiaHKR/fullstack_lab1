@@ -5,7 +5,6 @@ function build_user() {
                 console.log("oh no")
             } else {
                 const data = await response.json();
-                console.log(data)
                 document.getElementById("user_list").innerHTML = "";
                 data.forEach(element => {
                     document.getElementById("user_list").innerHTML += (`\
@@ -17,9 +16,9 @@ function build_user() {
                     </div><div class='col-md-3'>
                     <p class='age'><b>AGE:</b> <span class="field">**</span></p>
                     </div><div class='col-md-3'>
-                    <button onclick="load_user(this)"class='btn' data-id='${element._id}'><i class='fa-solid fa-pencil'></i></button>\
-                    <button onclick="delete_user(this) "class='btn' data-id='${element._id}'><i class='fa-solid fa-trash'></i></button>
-                    <button onclick="load_info(this)"class='btn' data-id='${element._id}'><i class='fa-solid fa-info'></i></button>
+                    <button onclick="load_user(this);" class='btn' data-id='${element._id}'><i class='fa-solid fa-pencil'></i></button>\
+                    <button onclick="delete_user(this);" class='btn' data-id='${element._id}'><i class='fa-solid fa-trash'></i></button>
+                    <button onclick="load_info(this);" class='btn' data-id='${element._id}'><i class='fa-solid fa-info'></i></button>
                     </div></div>`)
                 });
 
