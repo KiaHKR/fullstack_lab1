@@ -1,4 +1,5 @@
 import express from "express"
+import cors from "cors"
 import env from "dotenv"
 import {
     MongoClient,
@@ -6,12 +7,17 @@ import {
 } from "mongodb";
 
 
+
+
 const app = express()
+app.use(cors( {credentials: true, origin: true}))
 
 const port = process.env.PORT || 3000
 app.use(express.urlencoded({
     extended: true
 }))
+
+
 app.use(express.json())
 
 app.use(express.static("public"));
@@ -22,7 +28,12 @@ app.get('/', (req, res) => {
     res.render('pages/index')
 })
 
+
+
 env.config()
+
+// Add headers before the routes are defined
+
 
 const uri = "mongodb+srv://kia:" + process.env.PASS + "@cluster0.hdlqw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
@@ -34,7 +45,7 @@ const collections = database.collection("user_info");
 
 
 
-app.get("/api/users", (req, res) => {
+app.get("/api/users", (req, res, next) => {
     async function get_users() {
         let json_user = []
         const users = collections.find({})
@@ -48,7 +59,7 @@ app.get("/api/users", (req, res) => {
     get_users()
 })
 
-app.get("/api/users/:id", (req, res) => {
+app.get("/api/users/:id", (req, res, next) => {
     async function get_users() {
         let json_user = []
         const users = collections.find({
@@ -64,7 +75,7 @@ app.get("/api/users/:id", (req, res) => {
     get_users()
 })
 
-app.post("/api/users", (req, res) => {
+app.post("/api/users", (req, res, next) => {
     async function add_user() {
         try {
             const doc = {
@@ -82,7 +93,7 @@ app.post("/api/users", (req, res) => {
 })
 
 
-app.put("/api/users/:id", (req, res) => {
+app.put("/api/users/:id", (req, res, next) => {
 
     const found_user_object = collections.findOne(ObjectId(req.params.id))
 

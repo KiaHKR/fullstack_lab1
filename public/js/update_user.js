@@ -23,7 +23,8 @@ function update_user() {
     fetch(`/api/users/` + id_query, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin":"*"
             },
             body: JSON.stringify({
                 name: name_query,
