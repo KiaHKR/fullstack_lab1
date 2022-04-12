@@ -37,7 +37,6 @@ function update_user() {
             if (response.status != 200) {
                 alert("oh no");
             } else {
-                body
             }
         });
 }

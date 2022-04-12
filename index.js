@@ -96,7 +96,7 @@ app.put("/api/users/:id", (req, res) => {
 
     function update_user() {
         try {
-            const result = collections.updateOne({
+            collections.updateOne({
                 _id: ObjectId(req.params.id)
             }, {
                 $set: {
@@ -105,7 +105,7 @@ app.put("/api/users/:id", (req, res) => {
                 }
             })
             res.sendStatus(200)
-        } finally {}
+        }
     }
 })
 
