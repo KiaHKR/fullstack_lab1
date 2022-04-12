@@ -105,7 +105,7 @@ app.put("/api/users/:id", (req, res) => {
                 }
             })
             res.sendStatus(200)
-        }
+        } finally {}
     }
 })
 
